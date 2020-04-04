@@ -16,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Create Store1
+          Create Store
         </a>
       </header>
     </div>
