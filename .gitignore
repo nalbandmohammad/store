@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+sessiondemo/index.js
+sessiondemo/demo/app.js
+sessiondemo/demo/buttons.js
+sessiondemo/demo/count.js
+sessiondemo/demo/custombutton.js
