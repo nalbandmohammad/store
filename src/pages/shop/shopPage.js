@@ -4,6 +4,8 @@ import {Route} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
+import WithSpinner from '../../components/with-spinner/with-spinner';
+
 import CollectionsOverview from "../../components/collections-overview/collections-overview";
 
 import CollectionPage from '../collection/collection';
@@ -12,7 +14,14 @@ import {firestore, convertCollectionsSnapshotToMap} from '../../firebase/firebas
 
 import {updateCollections} from '../../redux/shop/shop.actions';
 
+const CollectionsOveriewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+
 class ShopPage extends Component{
+
+  state = {
+    loading: true
+  }
   
   unsubscribeFromSnapshot = null;
 
@@ -26,6 +35,7 @@ class ShopPage extends Component{
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
       console.log(collectionsMap);
       updateCollections(collectionsMap);
+      this.setState({loading:false})
     });
 
   }
@@ -33,10 +43,13 @@ class ShopPage extends Component{
 
   render(){
     const {match} = this.props;
+    const {loading} = this.state;
     return(
         <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionsOverview} />
-        <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
+        <Route exact path={`${match.path}`} render={(props) => <CollectionsOveriewWithSpinner isLoading={loading} {...props}/>} />
+        <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props}/>} />
+        {/* <Route exact path={`${match.path}`} component={CollectionsOverview} />
+        <Route path={`${match.path}/:collectionId`} component={CollectionPage} /> */}
       </div>
     );
   }
